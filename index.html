@@ -828,3 +828,84 @@
             };
             
             document.getElementById('category-tests-btn').onclick = function() {
+                console.log('Кнопка "Тести по темах" натиснута');
+showCategories();
+};
+
+document.getElementById('results-btn').onclick = function() {
+    console.log('Кнопка "Мої результати" натиснута');
+    showResults();
+};
+
+// Інші кнопки
+const backButtons = document.querySelectorAll('.btn-secondary');
+backButtons.forEach(button => {
+    if (button.textContent === 'Назад') {
+        button.addEventListener('click', function() {
+            console.log('Кнопка "Назад" натиснута');
+            showMainScreen();
+        });
+    }
+});
+
+document.getElementById('prev-btn').addEventListener('click', function() {
+    console.log('Кнопка "Попереднє" натиснута');
+    showPreviousQuestion();
+});
+
+document.getElementById('next-btn').addEventListener('click', function() {
+    console.log('Кнопка "Наступне" натиснута');
+    showNextQuestion();
+});
+
+document.getElementById('finish-btn').addEventListener('click', function() {
+    console.log('Кнопка "Завершити тест" натиснута');
+    finishTest();
+});
+
+document.getElementById('exit-btn').addEventListener('click', function() {
+    console.log('Кнопка "Вийти з тесту" натиснута');
+    confirmExitTest();
+});
+
+// Ініціалізація при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Сторінка завантажена');
+    
+    // Завантажуємо статистику
+    loadStats();
+    
+    // Додаємо обробники подій для кнопок
+    debugButtons();
+});
+
+// Виводимо повідомлення для перевірки, що скрипт завантажився
+console.log('Скрипт завантажено');
+            document.getElementById('next-btn').addEventListener('click', function() {
+    console.log('Кнопка "Наступне" натиснута');
+    showNextQuestion();
+});
+
+document.getElementById('finish-btn').addEventListener('click', function() {
+    console.log('Кнопка "Завершити тест" натиснута');
+    finishTest();
+});
+
+document.getElementById('exit-btn').addEventListener('click', function() {
+    console.log('Кнопка "Вийти з тесту" натиснута');
+    confirmExitTest();
+});
+
+// Ініціалізація при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Сторінка завантажена');
+    
+    // Завантажуємо статистику
+    loadStats();
+    
+    // Додаємо обробники подій для кнопок
+    debugButtons();
+});
+
+// Виводимо повідомлення для перевірки, що скрипт завантажився
+console.log('Скрипт завантажено');
