@@ -293,7 +293,7 @@
         <div id="categories-container">
             <!-- Категорії будуть додані через JavaScript -->
         </div>
-        <button class="btn btn-secondary">Назад</button>
+        <button id="back-btn-categories" class="btn btn-secondary">Назад</button>
     </div>
     
     <!-- Екран тесту -->
@@ -339,7 +339,7 @@
             <div id="result-message"></div>
         </div>
         
-        <button class="btn">На головну</button>
+        <button id="back-btn-results" class="btn">На головну</button>
     </div>
     
     <!-- Екран статистики -->
@@ -370,7 +370,7 @@
             <!-- Слабкі теми будуть додані через JavaScript -->
         </div>
         
-        <button class="btn btn-secondary">Назад</button>
+        <button id="back-btn-stats" class="btn btn-secondary">Назад</button>
     </div>
     
     <!-- Модальне вікно для підтвердження виходу з тесту -->
@@ -379,8 +379,8 @@
             <h2 class="modal-title">Вийти з тесту?</h2>
             <p>Ваш прогрес буде втрачено.</p>
             <div class="modal-buttons">
-                <button class="btn btn-secondary" id="cancel-exit-btn">Скасувати</button>
-                <button class="btn btn-danger" id="confirm-exit-btn">Вийти</button>
+                <button id="cancel-exit-btn" class="btn btn-secondary">Скасувати</button>
+                <button id="confirm-exit-btn" class="btn btn-danger">Вийти</button>
             </div>
         </div>
     </div>
@@ -817,20 +817,75 @@
             showMainScreen();
         }
         
-        // Функція для відлагодження
-        function debugButtons() {
-            console.log("Додаємо обробники подій для кнопок");
-            
-            // Додаємо обробники подій для всіх кнопок
-            document.getElementById('start-exam-btn').addEventListener('click', function() {
-                console.log('Кнопка "Скласти іспит" натиснута');
-                startExam();
-            });
-            
-            document.getElementById('category-tests-btn').addEventListener('click', function() {
-                console.log('Кнопка "Тести по темах" натиснута');
-                showCategories();
-            });
-            
-            document.getElementById('results-btn').addEventListener('click', function() {
-                console.log('Кнопка "М
+        // Ініціалізація при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Сторінка завантажена');
+    
+    // Завантажуємо статистику
+    loadStats();
+    
+    // Додаємо обробники подій для кнопок
+    document.getElementById('start-exam-btn').addEventListener('click', function() {
+        console.log('Кнопка "Скласти іспит" натиснута');
+        startExam();
+    });
+    
+    document.getElementById('category-tests-btn').addEventListener('click', function() {
+        console.log('Кнопка "Тести по темах" натиснута');
+        showCategories();
+    });
+    
+    document.getElementById('results-btn').addEventListener('click', function() {
+        console.log('Кнопка "Мої результати" натиснута');
+        showResults();
+    });
+    
+    document.getElementById('back-btn-categories').addEventListener('click', function() {
+        showMainScreen();
+    });
+    
+    document.getElementById('prev-btn').addEventListener('click', function() {
+        showPreviousQuestion();
+    });
+    
+    document.getElementById('next-btn').addEventListener('click', function() {
+        showNextQuestion();
+    });
+    
+    document.getElementById('finish-btn').addEventListener('click', function() {
+        finishTest();
+    });
+    
+    document.getElementById('exit-btn').addEventListener('click', function() {
+        confirmExitTest();
+    });
+    
+    document.getElementById('back-btn-results').addEventListener('click', function() {
+        showMainScreen();
+    });
+    
+    document.getElementById('back-btn-stats').addEventListener('click', function() {
+        showMainScreen();
+    });
+    
+    document.getElementById('cancel-exit-btn').addEventListener('click', function() {
+        hideExitModal();
+    });
+    
+    document.getElementById('confirm-exit-btn').addEventListener('click', function() {
+        exitTest();
+    });
+    
+    // Додаємо обробники для клавіш
+    document.addEventListener('keydown', function(event) {
+        if (document.getElementById('test-screen').classList.contains('active')) {
+            if (event.key === 'ArrowLeft') {
+                showPreviousQuestion();
+            } else if (event.key === 'ArrowRight') {
+                showNextQuestion();
+            }
+        }
+    });
+    
+    console.log('Обробники подій додані');
+});
