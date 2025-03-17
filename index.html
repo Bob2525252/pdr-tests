@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тести ПДР України</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        body.dark-theme {
+            background-color: #222;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .dark-theme h2 {
+            color: #aaa;
+        }
+        
+        .main-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .main-button {
+            padding: 16px;
+            border-radius: 10px;
+            background-color: #2196F3;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+        }
+        
+        .main-button:hover {
+            background-color: #0d8aee;
+        }
+        
+        .test-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .dark-theme .test-card {
+            background-color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .question-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .dark-theme .option {
+            background-color: #444;
+        }
+        
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .dark-theme .option:hover {
+            background-color: #555;
+        }
+        
+        .option.selected {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .option.correct {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .option.incorrect {
+            background-color: #F44336;
+            color: white;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #2196F3;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .result-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .dark-theme .result-container {
+            background-color: #333;
+        }
+        
+        .category-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .category-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .dark-theme .category-card {
+            background-color: #333;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .category-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .category-description {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .dark-theme .category-description {
+            color: #aaa;
+        }
+        
+        .progress-container {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .dark-theme .progress-container {
+            background-color: #444;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #2196F3;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .explanation {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e8f4fd;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .dark-theme .explanation {
+            background-color: #2c3e50;
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .timer-container {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .timer-warning {
+            color: #F44336;
+        }
+        
+        .back-button {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            color: #2196F3;
+            padding: 5px;
+            font-size: 14px;
+        }
+        
+        .dark-theme .back-button {
+            color: #64b5f6;
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .stats-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .dark-theme .stats-card {
+            background-color: #333;
+        }
+        
+        .stats-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .stats-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 5px;
+        }
+        
+        .dark-theme .stats-value {
+            color: #64b5f6;
+        }
+        
+        .stats-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+        
+        .dark-theme .stats-bar {
+            background-color: #444;
+        }
+        
+        .stats-bar-fill {
+            height: 100%;
+            background-color: #2196F3;
+        }
+        
+        .weak-topics {
+            margin-top: 20px;
+        }
+        
+        .weak-topic {
+            padding: 10px;
+            background-color: #fff3e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .dark-theme .weak-topic {
+            background-color: #4e342e;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .dark-theme .modal-content {
+            background-color: #333;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Головний екран -->
+        <div id="main-screen" class="screen active">
+            <h1>Офіційні тести ПДР</h1>
+            <h2>Від Академії ВодіїВ</h2>
+            
+            <div class="main-buttons">
+                <button class="main-button" onclick="startExam()">Скласти іспит</button>
+                <button class="main-button" onclick="showCategoryTests()">Тести по темах</button>
+                <button class="main-button" onclick="showResults()">Мої результати</button>
+            </div>
+        </div>
+
+        <!-- Екран категорій тестів -->
+        <div id="categories-screen" class="screen">
+            <button class="back-button" onclick="showMainScreen()">← Назад</button>
+            <h1>Тести по темах</h1>
+            
+            <div class="category-container" id="category-container">
+                <!-- Категорії будуть додані через JavaScript -->
+            </div>
+        </div>
+
+        <!-- Екран тесту -->
+        <div id="test-screen" class="screen">
+            <button class="back-button" id="test-back-button" onclick="confirmExitTest()">← Назад</button>
+            <h1 id="test-title">Тест ПДР</h1>
+            
+            <div id="timer-container" class="timer-container">
+                Час: <span id="timer">20:00</span>
+            </div>
+            
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            
+            <div class="test-card">
+                <img id="question-image" class="question-image" src="https://placehold.co/600x300?text=Зображення+до+питання" alt="Зображення до питання">
+                <div id="question-text" class="question-text">Текст питання буде тут</div>
+                <ul id="options" class="options">
+                    <!-- Варіанти відповідей будуть тут -->
+                </ul>
+                <div id="explanation" class="explanation"></div>
+            </div>
+            
+            <div class="button-container">
+                <button id="prev-button" onclick="prevQuestion()" disabled>Назад</button>
+                <button id="next-button" onclick="nextQuestion()" disabled>Далі</button>
+            </div>
+        </div>
+
+        <!-- Екран результатів тесту -->
+        <div id="results-screen" class="screen">
+            <button class="back-button" onclick="showMainScreen()">← На головну</button>
+            <h1>Результати тесту</h1>
+            
+            <div class="result-container" id="result-container">
+                <h2 id="score-text">Ви відповіли правильно на 0 з 20 питань</h2>
+                <p id="percentage-text">0% правильних відповідей</p>
+                <div id="result-message"></div>
+                <div class="button-container" style="justify-content: center; margin-top: 30px;">
+                    <button onclick="showMainScreen()">На головну</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Екран статистики -->
+        <div id="stats-screen" class="screen">
+            <button class="back-button" onclick="showMainScreen()">← На головну</button>
+            <h1>Моя статистика</h1>
+            
+            <div class="stats-container">
+                <div class="stats-card">
+                    <div class="stats-title">Загальна успішність</div>
+                    <div class="stats-value" id="overall-success">0%</div>
+                    <div class="stats-bar">
+                        <div class="stats-bar-fill" id="overall-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="stats-title">Пройдено тестів</div>
+                    <div class="stats-value" id="tests-completed">0</div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="stats-title">Правильних відповідей</div>
+                    <div class="stats-value" id="correct-answers">0 з 0</div>
+                </div>
+                
+                <div class="stats-card weak-topics">
+                    <div class="stats-title">Теми для покращення</div>
+                    <div id="weak-topics-container">
+                        <!-- Теми для покращення будуть додані через JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Модальне вікно для підтвердження виходу з тесту -->
+        <div id="exit-modal" class="modal">
+            <div class="modal-content">
+                <h2>Вийти з тесту?</h2>
+                <p>Ваш прогрес буде втрачено.</p>
+                <div class="modal-buttons">
+                    <button onclick="hideExitModal()">Скасувати</button>
+                    <button onclick="exitTest()">Вийти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ініціалізація Telegram WebApp
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // Застосування теми Telegram
+        if (tg.colorScheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+        
+        // Змінні для роботи з тестами
+        let currentTest = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let examMode = false;
+        let timerInterval = null;
+        let timeLeft = 1200; // 20 хвилин у секундах
+        
+        // Статистика користувача
+        let userStats = {
+            testsCompleted: 0,
+            totalQuestions: 0,
+            correctAnswers: 0,
+            categoryStats: {}
+        };
+        
+        // Завантаження статистики з localStorage
+        function loadStats() {
+            const savedStats = localStorage.getItem('pdrTestStats');
+            if (savedStats) {
+                userStats = JSON.parse(savedStats);
+            }
+        }
+        
+        // Збереження статистики в localStorage
+        function saveStats() {
+            localStorage.setItem('pdrTestStats', JSON.stringify(userStats));
+        }
+        
+        // Ініціалізація при завантаженні
+        window.onload = function() {
+            loadStats();
+        };
+        
+        // Категорії тестів ПДР
+        const categories = [
+            {
+                id: "general",
+                title: "Загальні положення",
+                description: "Основні поняття та терміни",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "obligations",
+                title: "Обов'язки і права водіїв",
+                description: "Обов'язки та права водіїв механічних транспортних засобів",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "traffic_rules",
+                title: "Правила дорожнього руху",
+                description: "Рух транспорту, обгін, зупинка та стоянка",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "road_signs",
+                title: "Дорожні знаки",
+                description: "Попереджувальні, пріоритету, заборонні та інші знаки",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "road_marking",
+                title: "Дорожня розмітка",
+                description: "Горизонтальна та вертикальна розмітка",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "signals",
+                title: "Регулювання дорожнього руху",
+                description: "Сигнали світлофора та регулювальника",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "pedestrian",
+                title: "Проїзд пішохідних переходів",
+                description: "Правила проїзду пішохідних переходів та зупинок",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "crossroads",
+                title: "Проїзд перехресть",
+                description: "Регульовані та нерегульовані перехрестя",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "overtaking",
+                title: "Обгін і зустрічний роз'їзд",
+                description: "Правила обгону та зустрічного роз'їзду",
+                questions: generateQuestions(20)
+            },
+            {
+                id: "speed",
+                title: "Швидкість руху",
+                description: "Обмеження швидкості в різних умовах",
+                questions: generateQuestions(20)
+            }
+        ];
+        
+        // Функція для генерації випадкових питань (для демонстрації)
+        function generateQuestions(count) {
+            const questions = [];
+            for (let i = 0; i < count; i++) {
+                questions.push({
+                    text: `Питання ${i+1} з категорії`,
+                    image: `https://placehold.co/600x300?text=Зображення+${i+1}`,
+                    options: [
+                        `Варіант відповіді 1 для питання ${i+1}`,
+                        `Варіант відповіді 2 для питання ${i+1}`,
+                        `Варіант відповіді 3 для питання ${i+1}`,
+                        `Варіант відповіді 4 для питання ${i+1}`
+                    ],
+                    correctAnswer: Math.floor(Math.random() * 4),
+                    explanation: `Пояснення до питання ${i+1}. Правильна відповідь - варіант ${Math.floor(Math.random() * 4) + 1}.`
+                });
+            }
+            return questions;
+        }
+        
+        // Функція для створення екзаменаційного тесту
+        function createExamTest() {
+            const examQuestions = [];
+            
+            // Вибираємо по 2 випадкових питання з кожної категорії
+            categories.forEach(category => {
+                const categoryQuestions = [...category.questions];
+                for (let i = 0; i < 2; i++) {
+                    if (categoryQuestions.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * categoryQuestions.length);
+                        const question = categoryQuestions.splice(randomIndex, 1)[0];
+                        // Додаємо інформацію про категорію до питання
+                        question.category = category.id;
+                        question.categoryTitle = category.title;
+                        examQuestions.push(question);
+                    }
+                }
+            });
+            
+            // Перемішуємо питання
+            return shuffleArray(examQuestions);
+        }
+        
+        // Функція для перемішування масиву
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+        
+        // Показати головний екран
+        function showMainScreen() {
+            hideAllScreens();
+            document.getElementById('main-screen').classList.add('active');
+        }
+        
+        // Сховати всі екрани
+        function hideAllScreens() {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+        }
+        
+        // Показати екран категорій тестів
+        function showCategoryTests() {
+            hideAllScreens();
+            document.getElementById('categories-screen').classList.add('active');
+            
+            // Заповнюємо контейнер категоріями
+            const container = document.getElementById('category-container');
+            container.innerHTML = '';
+            
+            categories.forEach(category => {
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'category-card';
+                categoryCard.onclick = () => startCategoryTest(category.id);
+                
+                const title = document.createElement('div');
+                title.className = 'category-title';
+                title.textContent = category.title;
+                
+                const description = document.createElement('div');
+                description.className = 'category-description';
+                description.textContent = category.description;
+                
+                categoryCard.appendChild(title);
+                categoryCard.appendChild(description);
+                container.appendChild(categoryCard);
+            });
+        }
+        
+        // Почати тест з певної категорії
+        function startCategoryTest(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            if (category) {
+                currentTest = {
+                    title: category.title,
+                    questions: shuffleArray(category.questions).slice(0, 20)
+                };
+                
+                examMode = false;
+                startTest();
+            }
+        }
+        
+        // Почати екзаменаційний тест
+        function startExam() {
+            currentTest = {
+                title: "Екзаменаційний тест",
+                questions: createExamTest()
+            };
+            
+            examMode = true;
+            startTest();
+            startTimer();
+        }
+        
+        // Почати тест
+        function startTest() {
+            hideAllScreens();
+            document.getElementById('test-screen').classList.add('active');
+            
+            document.getElementById('test-title').textContent = currentTest.title;
+            currentQuestionIndex = 0;
+            userAnswers = Array(currentTest.questions.length).fill(null);
+            
+            // Показуємо/ховаємо таймер залежно від режиму
+            document.getElementById('timer-container').style.display = examMode ? 'block' : 'none';
+            
+            // Оновлюємо прогрес-бар
+            updateProgressBar();
+            
+            // Показуємо перше питання
+            showQuestion(0);
+        }
+        
+        // Показати питання
+        function showQuestion(index) {
+            if (index < 0 || index >= currentTest.questions.length) return;
+            
+            const question = currentTest.questions[index];
+            document.getElementById('question-text').textContent = question.text;
+            document.getElementById('question-image').src = question.image;
+            
+            // Заповнюємо варіанти відповідей
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, i) => {
+                const li = document.createElement('li');
+                li.className = 'option';
+                li.textContent = option;
+                li.onclick = () => selectOption(i);
+                
+                // Якщо користувач вже відповів на це питання
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    if (i === userAnswers[currentQuestionIndex]) {
+                        li.classList.add('selected');
+                    }
+                    
+                    // Показуємо правильну/неправильну відповідь
+                    if (i === question.correctAnswer) {
+                        li.classList.add('correct');
+                    } else if (i === userAnswers[currentQuestionIndex] && i !== question.correctAnswer) {
+                        li.classList.add('incorrect');
+                    }
+                    
+                    // Показуємо пояснення
+                    document.getElementById('explanation').style.display = 'block';
+                    document.getElementById('explanation').textContent = question.explanation;
+                }
+                
+                optionsContainer.appendChild(li);
+            });
+            
+            // Оновлюємо стан кнопок
+            document.getElementById('prev-button').disabled = index === 0;
+            document.getElementById('next-button').disabled = userAnswers[index] === null;
+            document.getElementById('next-button').textContent = index === currentTest.questions.length - 1 ? 'Завершити' : 'Далі';
+            
+            // Ховаємо пояснення, якщо користувач ще не відповів
+            if (userAnswers[currentQuestionIndex] === null) {
+                document.getElementById('explanation').style.display = 'none';
+            }
+        }
+        
+        // Вибрати варіант відповіді
+        function selectOption(optionIndex) {
+            // Якщо користувач вже відповів на це питання, нічого не робимо
+            if (userAnswers[currentQuestionIndex] !== null) return;
+            
+            userAnswers[currentQuestionIndex] = optionIndex;
+            
+            // Оновлюємо відображення варіантів
+            const options = document.querySelectorAll('.option');
+            const question = currentTest.questions[currentQuestionIndex];
+            
+            options.forEach((option, i) => {
+                if (i === optionIndex) {
+                    option.classList.add('selected');
+                }
+                
+                if (i === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (i === optionIndex && i !== question.correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Показуємо пояснення
+            document.getElementById('explanation').style.display = 'block';
+            document.getElementById('explanation').textContent = question.explanation;
+            
+            // Розблоковуємо кнопку "Далі"
+            document.getElementById('next-button').disabled = false;
+            
+            // Якщо це останнє питання, автоматично завершуємо тест через 2 секунди
+            if (currentQuestionIndex === currentTest.questions.length - 1) {
+                setTimeout(() => {
+                    finishTest();
+                }, 2000);
+            }
+        }
+        
+        // Перейти до попереднього питання
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+                updateProgressBar();
+            }
+        }
+        
+        // Перейти до наступного питання
+        function nextQuestion() {
+            if (currentQuestionIndex < currentTest.questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+                updateProgressBar();
+            } else {
+                finishTest();
+            }
+        }
+        
+        // Оновити прогрес-бар
+        function updateProgressBar() {
+            const progressPercentage = ((currentQuestionIndex + 1) / currentTest.questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+        }
+        
+        // Запустити таймер
+        function startTimer() {
+            timeLeft = 1200; // 20 хвилин у секундах
+            updateTimerDisplay();
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishTest();
+                } else if (timeLeft <= 60) {
+                    // Додаємо червоний колір, коли залишається менше хвилини
+                    document.getElementById('timer').classList.add('timer-warning');
+                }
+            }, 1000);
+        }
+        
+        // Оновити відображення таймера
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Зупинити таймер
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+        
+        // Завершити тест
+        function
