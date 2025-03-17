@@ -3,217 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тести ПДР України</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Тести ПДР</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 16px;
-            color: #333;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
             background-color: #f5f5f5;
-        }
-        
-        body.dark-theme {
-            background-color: #222;
-            color: #fff;
-        }
-        
-        .container {
-            max-width: 600px;
+            color: #333;
+            max-width: 800px;
             margin: 0 auto;
+            padding: 16px;
+        }
+        
+        .screen {
+            display: none;
+            padding: 16px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+        }
+        
+        .screen.active {
+            display: block;
         }
         
         h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 22px;
+            color: #2196F3;
         }
         
         h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 18px;
-            color: #666;
+            font-size: 20px;
+            margin-bottom: 12px;
         }
         
-        .dark-theme h2 {
-            color: #aaa;
-        }
-        
-        .main-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .main-button {
-            padding: 16px;
-            border-radius: 10px;
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
             background-color: #2196F3;
             color: white;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s;
-            border: none;
         }
         
-        .main-button:hover {
-            background-color: #0d8aee;
+        .btn:hover {
+            background-color: #1976D2;
         }
         
-        .test-card {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        .btn-secondary {
+            background-color: #E0E0E0;
+            color: #333;
         }
         
-        .dark-theme .test-card {
-            background-color: #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        .btn-secondary:hover {
+            background-color: #BDBDBD;
+        }
+        
+        .btn-danger {
+            background-color: #F44336;
+        }
+        
+        .btn-danger:hover {
+            background-color: #D32F2F;
+        }
+        
+        .btn-success {
+            background-color: #4CAF50;
+        }
+        
+        .btn-success:hover {
+            background-color: #388E3C;
+        }
+        
+        .category-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            background-color: #E3F2FD;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .category-item:hover {
+            background-color: #BBDEFB;
+        }
+        
+        .question-container {
+            margin-bottom: 24px;
         }
         
         .question-image {
             width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            background-color: #E0E0E0;
             border-radius: 8px;
-            margin-bottom: 15px;
         }
         
-        .question-text {
-            font-size: 18px;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        
-        .options {
-            list-style-type: none;
-            padding: 0;
-        }
-        
-        .option {
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            background-color: #f0f0f0;
+        .answer-option {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #E3F2FD;
+            border: 2px solid #E3F2FD;
             border-radius: 8px;
+            text-align: left;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
         
-        .dark-theme .option {
-            background-color: #444;
+        .answer-option:hover {
+            background-color: #BBDEFB;
+            border-color: #BBDEFB;
         }
         
-        .option:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .dark-theme .option:hover {
-            background-color: #555;
-        }
-        
-        .option.selected {
+        .answer-option.selected {
             background-color: #2196F3;
+            border-color: #2196F3;
             color: white;
         }
         
-        .option.correct {
+        .answer-option.correct {
             background-color: #4CAF50;
+            border-color: #4CAF50;
             color: white;
         }
         
-        .option.incorrect {
+        .answer-option.incorrect {
             background-color: #F44336;
+            border-color: #F44336;
             color: white;
-        }
-        
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            background-color: #2196F3;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        
-        .result-container {
-            text-align: center;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .dark-theme .result-container {
-            background-color: #333;
-        }
-        
-        .category-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .category-card {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .dark-theme .category-card {
-            background-color: #333;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-2px);
-        }
-        
-        .category-title {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-        
-        .category-description {
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .dark-theme .category-description {
-            color: #aaa;
         }
         
         .progress-container {
             height: 8px;
-            background-color: #e0e0e0;
+            background-color: #E0E0E0;
             border-radius: 4px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             overflow: hidden;
-        }
-        
-        .dark-theme .progress-container {
-            background-color: #444;
         }
         
         .progress-bar {
@@ -223,285 +165,234 @@
             transition: width 0.3s;
         }
         
-        .explanation {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #e8f4fd;
-            border-radius: 8px;
-            font-size: 14px;
-            display: none;
-        }
-        
-        .dark-theme .explanation {
-            background-color: #2c3e50;
-        }
-        
-        .screen {
-            display: none;
-        }
-        
-        .screen.active {
-            display: block;
-        }
-        
         .timer-container {
             text-align: center;
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: bold;
+            margin-bottom: 16px;
         }
         
-        .timer-warning {
-            color: #F44336;
-        }
-        
-        .back-button {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: none;
-            color: #2196F3;
-            padding: 5px;
-            font-size: 14px;
-        }
-        
-        .dark-theme .back-button {
-            color: #64b5f6;
-        }
-        
-        .stats-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .stats-card {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .dark-theme .stats-card {
-            background-color: #333;
-        }
-        
-        .stats-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        
-        .stats-value {
+        .timer {
             font-size: 24px;
             font-weight: bold;
             color: #2196F3;
-            margin-bottom: 5px;
         }
         
-        .dark-theme .stats-value {
-            color: #64b5f6;
+        .timer.timer-warning {
+            color: #F44336;
         }
         
-        .stats-bar {
-            height: 8px;
-            background-color: #e0e0e0;
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+        
+        .navigation-buttons .btn {
+            width: 48%;
+        }
+        
+        .result-container {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .result-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 8px;
+        }
+        
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #E3F2FD;
+            border-radius: 8px;
+        }
+        
+        .stats-bar-container {
+            height: 24px;
+            background-color: #E0E0E0;
             border-radius: 4px;
-            margin-bottom: 5px;
+            margin-top: 8px;
             overflow: hidden;
         }
         
-        .dark-theme .stats-bar {
-            background-color: #444;
-        }
-        
-        .stats-bar-fill {
+        .stats-bar {
             height: 100%;
             background-color: #2196F3;
-        }
-        
-        .weak-topics {
-            margin-top: 20px;
+            width: 0%;
         }
         
         .weak-topic {
-            padding: 10px;
-            background-color: #fff3e0;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #FFEBEE;
             border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        
-        .dark-theme .weak-topic {
-            background-color: #4e342e;
+            color: #D32F2F;
         }
         
         .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            display: none;
         }
         
         .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
             width: 80%;
             max-width: 400px;
-            text-align: center;
         }
         
-        .dark-theme .modal-content {
-            background-color: #333;
+        .modal-title {
+            font-size: 20px;
+            margin-bottom: 16px;
+            text-align: center;
         }
         
         .modal-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+        }
+        
+        .modal-buttons .btn {
+            width: 48%;
+        }
+        
+        .hint-container {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: #FFF9C4;
+            border-radius: 8px;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Головний екран -->
-        <div id="main-screen" class="screen active">
-            <h1>Офіційні тести ПДР</h1>
-            <h2>Від Академії ВодіїВ</h2>
-            
-            <div class="main-buttons">
-                <button class="main-button" onclick="startExam()">Скласти іспит</button>
-                <button class="main-button" onclick="showCategoryTests()">Тести по темах</button>
-                <button class="main-button" onclick="showResults()">Мої результати</button>
-            </div>
+    <!-- Головний екран -->
+    <div id="main-screen" class="screen active">
+        <h1>Офіційні тести ПДР<br>Від Академії ВодіїВ</h1>
+        <button id="start-exam-btn" class="btn" onclick="startExam()">Скласти іспит</button>
+        <button id="category-tests-btn" class="btn" onclick="showCategories()">Тести по темах</button>
+        <button id="results-btn" class="btn" onclick="showResults()">Мої результати</button>
+    </div>
+    
+    <!-- Екран категорій -->
+    <div id="categories-screen" class="screen">
+        <h1>Виберіть тему</h1>
+        <div id="categories-container">
+            <!-- Категорії будуть додані через JavaScript -->
         </div>
-
-        <!-- Екран категорій тестів -->
-        <div id="categories-screen" class="screen">
-            <button class="back-button" onclick="showMainScreen()">← Назад</button>
-            <h1>Тести по темах</h1>
-            
-            <div class="category-container" id="category-container">
-                <!-- Категорії будуть додані через JavaScript -->
-            </div>
+        <button class="btn btn-secondary" onclick="showMainScreen()">Назад</button>
+    </div>
+    
+    <!-- Екран тесту -->
+    <div id="test-screen" class="screen">
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
         </div>
-
-        <!-- Екран тесту -->
-        <div id="test-screen" class="screen">
-            <button class="back-button" id="test-back-button" onclick="confirmExitTest()">← Назад</button>
-            <h1 id="test-title">Тест ПДР</h1>
-            
-            <div id="timer-container" class="timer-container">
-                Час: <span id="timer">20:00</span>
-            </div>
-            
-            <div class="progress-container">
-                <div id="progress-bar" class="progress-bar"></div>
-            </div>
-            
-            <div class="test-card">
-                <img id="question-image" class="question-image" src="https://placehold.co/600x300?text=Зображення+до+питання" alt="Зображення до питання">
-                <div id="question-text" class="question-text">Текст питання буде тут</div>
-                <ul id="options" class="options">
-                    <!-- Варіанти відповідей будуть тут -->
-                </ul>
-                <div id="explanation" class="explanation"></div>
-            </div>
-            
-            <div class="button-container">
-                <button id="prev-button" onclick="prevQuestion()" disabled>Назад</button>
-                <button id="next-button" onclick="nextQuestion()" disabled>Далі</button>
-            </div>
+        
+        <div class="timer-container">
+            <div id="timer" class="timer">20:00</div>
         </div>
-
-        <!-- Екран результатів тесту -->
-        <div id="results-screen" class="screen">
-            <button class="back-button" onclick="showMainScreen()">← На головну</button>
-            <h1>Результати тесту</h1>
+        
+        <div id="question-container" class="question-container">
+            <h2 id="question-text">Текст питання</h2>
+            <img id="question-image" class="question-image" src="https://placehold.co/600x200" alt="Зображення до питання">
             
-            <div class="result-container" id="result-container">
-                <h2 id="score-text">Ви відповіли правильно на 0 з 20 питань</h2>
-                <p id="percentage-text">0% правильних відповідей</p>
-                <div id="result-message"></div>
-                <div class="button-container" style="justify-content: center; margin-top: 30px;">
-                    <button onclick="showMainScreen()">На головну</button>
-                </div>
+            <div id="answers-container">
+                <!-- Варіанти відповідей будуть додані через JavaScript -->
             </div>
-        </div>
-
-        <!-- Екран статистики -->
-        <div id="stats-screen" class="screen">
-            <button class="back-button" onclick="showMainScreen()">← На головну</button>
-            <h1>Моя статистика</h1>
             
-            <div class="stats-container">
-                <div class="stats-card">
-                    <div class="stats-title">Загальна успішність</div>
-                    <div class="stats-value" id="overall-success">0%</div>
-                    <div class="stats-bar">
-                        <div class="stats-bar-fill" id="overall-bar" style="width: 0%"></div>
-                    </div>
-                </div>
-                
-                <div class="stats-card">
-                    <div class="stats-title">Пройдено тестів</div>
-                    <div class="stats-value" id="tests-completed">0</div>
-                </div>
-                
-                <div class="stats-card">
-                    <div class="stats-title">Правильних відповідей</div>
-                    <div class="stats-value" id="correct-answers">0 з 0</div>
-                </div>
-                
-                <div class="stats-card weak-topics">
-                    <div class="stats-title">Теми для покращення</div>
-                    <div id="weak-topics-container">
-                        <!-- Теми для покращення будуть додані через JavaScript -->
-                    </div>
-                </div>
+            <div id="hint-container" class="hint-container">
+                <h3>Підказка:</h3>
+                <p id="hint-text"></p>
             </div>
         </div>
         
-        <!-- Модальне вікно для підтвердження виходу з тесту -->
-        <div id="exit-modal" class="modal">
-            <div class="modal-content">
-                <h2>Вийти з тесту?</h2>
-                <p>Ваш прогрес буде втрачено.</p>
-                <div class="modal-buttons">
-                    <button onclick="hideExitModal()">Скасувати</button>
-                    <button onclick="exitTest()">Вийти</button>
-                </div>
+        <div class="navigation-buttons">
+            <button id="prev-btn" class="btn btn-secondary" onclick="showPreviousQuestion()">Попереднє</button>
+            <button id="next-btn" class="btn" onclick="showNextQuestion()">Наступне</button>
+        </div>
+        
+        <button id="finish-btn" class="btn btn-success" onclick="finishTest()" style="display: none;">Завершити тест</button>
+        <button id="exit-btn" class="btn btn-danger" onclick="confirmExitTest()">Вийти з тесту</button>
+    </div>
+    
+    <!-- Екран результатів тесту -->
+    <div id="results-screen" class="screen">
+        <h1>Результати тесту</h1>
+        
+        <div class="result-container">
+            <p id="score-text">Ви відповіли правильно на 0 з 0 питань</p>
+            <p id="percentage-text">0% правильних відповідей</p>
+            <div id="result-message"></div>
+        </div>
+        
+        <button class="btn" onclick="showMainScreen()">На головну</button>
+    </div>
+    
+    <!-- Екран статистики -->
+    <div id="stats-screen" class="screen">
+        <h1>Моя статистика</h1>
+        
+        <h2>Загальна успішність</h2>
+        <div class="stats-item">
+            <span>Загальний відсоток правильних відповідей:</span>
+            <span id="overall-success">0%</span>
+        </div>
+        <div class="stats-bar-container">
+            <div id="overall-bar" class="stats-bar" style="width: 0%;"></div>
+        </div>
+        
+        <div class="stats-item">
+            <span>Пройдено тестів:</span>
+            <span id="tests-completed">0</span>
+        </div>
+        
+        <div class="stats-item">
+            <span>Правильних відповідей:</span>
+            <span id="correct-answers">0 з 0</span>
+        </div>
+        
+        <h2>Теми, які потребують покращення</h2>
+        <div id="weak-topics-container">
+            <!-- Слабкі теми будуть додані через JavaScript -->
+        </div>
+        
+        <button class="btn btn-secondary" onclick="showMainScreen()">Назад</button>
+    </div>
+    
+    <!-- Модальне вікно для підтвердження виходу з тесту -->
+    <div id="exit-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Вийти з тесту?</h2>
+            <p>Ваш прогрес буде втрачено.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="hideExitModal()">Скасувати</button>
+                <button class="btn btn-danger" onclick="exitTest()">Вийти</button>
             </div>
         </div>
     </div>
-
+    
     <script>
-        // Ініціалізація Telegram WebApp
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        
-        // Застосування теми Telegram
-        if (tg.colorScheme === 'dark') {
-            document.body.classList.add('dark-theme');
-        }
-        
-        // Змінні для роботи з тестами
+        // Глобальні змінні
+        let examMode = false;
         let currentTest = null;
         let currentQuestionIndex = 0;
         let userAnswers = [];
-        let examMode = false;
         let timerInterval = null;
-        let timeLeft = 1200; // 20 хвилин у секундах
-        
-        // Статистика користувача
+        let timeLeft = 0;
         let userStats = {
             testsCompleted: 0,
             totalQuestions: 0,
@@ -509,343 +400,212 @@
             categoryStats: {}
         };
         
-        // Завантаження статистики з localStorage
-        function loadStats() {
-            const savedStats = localStorage.getItem('pdrTestStats');
-            if (savedStats) {
-                userStats = JSON.parse(savedStats);
-            }
-        }
-        
-        // Збереження статистики в localStorage
-        function saveStats() {
-            localStorage.setItem('pdrTestStats', JSON.stringify(userStats));
-        }
-        
-        // Ініціалізація при завантаженні
-        window.onload = function() {
-            loadStats();
-        };
-        
-        // Категорії тестів ПДР
+        // Категорії тестів
         const categories = [
-            {
-                id: "general",
-                title: "Загальні положення",
-                description: "Основні поняття та терміни",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "obligations",
-                title: "Обов'язки і права водіїв",
-                description: "Обов'язки та права водіїв механічних транспортних засобів",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "traffic_rules",
-                title: "Правила дорожнього руху",
-                description: "Рух транспорту, обгін, зупинка та стоянка",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "road_signs",
-                title: "Дорожні знаки",
-                description: "Попереджувальні, пріоритету, заборонні та інші знаки",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "road_marking",
-                title: "Дорожня розмітка",
-                description: "Горизонтальна та вертикальна розмітка",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "signals",
-                title: "Регулювання дорожнього руху",
-                description: "Сигнали світлофора та регулювальника",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "pedestrian",
-                title: "Проїзд пішохідних переходів",
-                description: "Правила проїзду пішохідних переходів та зупинок",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "crossroads",
-                title: "Проїзд перехресть",
-                description: "Регульовані та нерегульовані перехрестя",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "overtaking",
-                title: "Обгін і зустрічний роз'їзд",
-                description: "Правила обгону та зустрічного роз'їзду",
-                questions: generateQuestions(20)
-            },
-            {
-                id: "speed",
-                title: "Швидкість руху",
-                description: "Обмеження швидкості в різних умовах",
-                questions: generateQuestions(20)
-            }
+            { id: 1, title: "Загальні положення, терміни та визначення" },
+            { id: 2, title: "Обов'язки і права водіїв" },
+            { id: 3, title: "Рух транспортних засобів із спеціальними сигналами" },
+            { id: 4, title: "Обов'язки пішоходів" },
+            { id: 5, title: "Регулювання дорожнього руху" },
+            { id: 6, title: "Попереджувальні сигнали" },
+            { id: 7, title: "Початок руху та зміна його напрямку" },
+            { id: 8, title: "Розташування транспортних засобів на дорозі" },
+            { id: 9, title: "Швидкість руху" },
+            { id: 10, title: "Дистанція, інтервал, зустрічний роз'їзд" }
         ];
         
-        // Функція для генерації випадкових питань (для демонстрації)
-        function generateQuestions(count) {
+        // Функція для генерації питань (замініть на реальні дані)
+        function generateQuestions(categoryId = null, count = 20) {
             const questions = [];
+            
+            // Генеруємо випадкові питання
             for (let i = 0; i < count; i++) {
+                const category = categoryId ? 
+                    categories.find(c => c.id === categoryId) : 
+                    categories[Math.floor(Math.random() * categories.length)];
+                
                 questions.push({
-                    text: `Питання ${i+1} з категорії`,
-                    image: `https://placehold.co/600x300?text=Зображення+${i+1}`,
-                    options: [
-                        `Варіант відповіді 1 для питання ${i+1}`,
-                        `Варіант відповіді 2 для питання ${i+1}`,
-                        `Варіант відповіді 3 для питання ${i+1}`,
-                        `Варіант відповіді 4 для питання ${i+1}`
+                    id: i + 1,
+                    text: `Питання ${i + 1} з категорії "${category.title}"`,
+                    image: "https://placehold.co/600x200",
+                    answers: [
+                        { id: 1, text: `Варіант відповіді 1` },
+                        { id: 2, text: `Варіант відповіді 2` },
+                        { id: 3, text: `Варіант відповіді 3` },
+                        { id: 4, text: `Варіант відповіді 4` }
                     ],
-                    correctAnswer: Math.floor(Math.random() * 4),
-                    explanation: `Пояснення до питання ${i+1}. Правильна відповідь - варіант ${Math.floor(Math.random() * 4) + 1}.`
+                    correctAnswer: Math.floor(Math.random() * 4) + 1,
+                    hint: `Підказка для питання ${i + 1}`,
+                    category: category.id,
+                    categoryTitle: category.title
                 });
             }
+            
             return questions;
         }
         
-        // Функція для створення екзаменаційного тесту
-        function createExamTest() {
-            const examQuestions = [];
-            
-            // Вибираємо по 2 випадкових питання з кожної категорії
-            categories.forEach(category => {
-                const categoryQuestions = [...category.questions];
-                for (let i = 0; i < 2; i++) {
-                    if (categoryQuestions.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * categoryQuestions.length);
-                        const question = categoryQuestions.splice(randomIndex, 1)[0];
-                        // Додаємо інформацію про категорію до питання
-                        question.category = category.id;
-                        question.categoryTitle = category.title;
-                        examQuestions.push(question);
-                    }
-                }
-            });
-            
-            // Перемішуємо питання
-            return shuffleArray(examQuestions);
+        // Функція для генерації питань для екзамену
+        function generateExamQuestions() {
+            return generateQuestions(null, 20);
         }
         
-        // Функція для перемішування масиву
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-        
-        // Показати головний екран
+        // Функція для показу головного екрану
         function showMainScreen() {
             hideAllScreens();
             document.getElementById('main-screen').classList.add('active');
         }
         
-        // Сховати всі екрани
-        function hideAllScreens() {
-            const screens = document.querySelectorAll('.screen');
-            screens.forEach(screen => {
-                screen.classList.remove('active');
-            });
-        }
-        
-        // Показати екран категорій тестів
-        function showCategoryTests() {
+        // Функція для показу екрану категорій
+        function showCategories() {
             hideAllScreens();
             document.getElementById('categories-screen').classList.add('active');
             
             // Заповнюємо контейнер категоріями
-            const container = document.getElementById('category-container');
-            container.innerHTML = '';
+            const categoriesContainer = document.getElementById('categories-container');
+            categoriesContainer.innerHTML = '';
             
             categories.forEach(category => {
-                const categoryCard = document.createElement('div');
-                categoryCard.className = 'category-card';
-                categoryCard.onclick = () => startCategoryTest(category.id);
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'category-item';
+                categoryElement.textContent = category.title;
+                categoryElement.onclick = function() {
+                    startCategoryTest(category.id);
+                };
                 
-                const title = document.createElement('div');
-                title.className = 'category-title';
-                title.textContent = category.title;
-                
-                const description = document.createElement('div');
-                description.className = 'category-description';
-                description.textContent = category.description;
-                
-                categoryCard.appendChild(title);
-                categoryCard.appendChild(description);
-                container.appendChild(categoryCard);
+                categoriesContainer.appendChild(categoryElement);
             });
         }
         
-        // Почати тест з певної категорії
+        // Функція для початку тесту по категорії
         function startCategoryTest(categoryId) {
+            examMode = false;
             const category = categories.find(c => c.id === categoryId);
-            if (category) {
-                currentTest = {
-                    title: category.title,
-                    questions: shuffleArray(category.questions).slice(0, 20)
-                };
-                
-                examMode = false;
-                startTest();
-            }
+            
+            // Генеруємо питання для вибраної категорії
+            const questions = generateQuestions(categoryId, 10);
+            
+            startTest(questions);
         }
         
-        // Почати екзаменаційний тест
+        // Функція для початку екзамену
         function startExam() {
+            examMode = true;
+            startTest(generateExamQuestions());
+        }
+        
+        // Функція для початку тесту
+        function startTest(questions) {
             currentTest = {
-                title: "Екзаменаційний тест",
-                questions: createExamTest()
+                questions: questions,
+                startTime: new Date()
             };
             
-            examMode = true;
-            startTest();
-            startTimer();
-        }
-        
-        // Почати тест
-        function startTest() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            
             hideAllScreens();
             document.getElementById('test-screen').classList.add('active');
             
-            document.getElementById('test-title').textContent = currentTest.title;
-            currentQuestionIndex = 0;
-            userAnswers = Array(currentTest.questions.length).fill(null);
-            
-            // Показуємо/ховаємо таймер залежно від режиму
-            document.getElementById('timer-container').style.display = examMode ? 'block' : 'none';
-            
-            // Оновлюємо прогрес-бар
-            updateProgressBar();
-            
             // Показуємо перше питання
             showQuestion(0);
+            
+            // Запускаємо таймер
+            startTimer();
         }
         
-        // Показати питання
+        // Функція для показу питання
         function showQuestion(index) {
-            if (index < 0 || index >= currentTest.questions.length) return;
+            if (index < 0 || index >= currentTest.questions.length) {
+                return;
+            }
             
+            currentQuestionIndex = index;
             const question = currentTest.questions[index];
+            
+            // Оновлюємо прогрес
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = `${((index + 1) / currentTest.questions.length) * 100}%`;
+            
+            // Заповнюємо дані питання
             document.getElementById('question-text').textContent = question.text;
             document.getElementById('question-image').src = question.image;
             
             // Заповнюємо варіанти відповідей
-            const optionsContainer = document.getElementById('options');
-            optionsContainer.innerHTML = '';
+            const answersContainer = document.getElementById('answers-container');
+            answersContainer.innerHTML = '';
             
-            question.options.forEach((option, i) => {
-                const li = document.createElement('li');
-                li.className = 'option';
-                li.textContent = option;
-                li.onclick = () => selectOption(i);
+            question.answers.forEach(answer => {
+                const answerElement = document.createElement('button');
+                answerElement.className = 'answer-option';
+                answerElement.textContent = answer.text;
+                answerElement.dataset.answerId = answer.id;
                 
                 // Якщо користувач вже відповів на це питання
-                if (userAnswers[currentQuestionIndex] !== null) {
-                    if (i === userAnswers[currentQuestionIndex]) {
-                        li.classList.add('selected');
-                    }
-                    
-                    // Показуємо правильну/неправильну відповідь
-                    if (i === question.correctAnswer) {
-                        li.classList.add('correct');
-                    } else if (i === userAnswers[currentQuestionIndex] && i !== question.correctAnswer) {
-                        li.classList.add('incorrect');
-                    }
-                    
-                    // Показуємо пояснення
-                    document.getElementById('explanation').style.display = 'block';
-                    document.getElementById('explanation').textContent = question.explanation;
+                if (userAnswers[index] === answer.id) {
+                    answerElement.classList.add('selected');
                 }
                 
-                optionsContainer.appendChild(li);
+                answerElement.onclick = function() {
+                    selectAnswer(answer.id);
+                };
+                
+                answersContainer.appendChild(answerElement);
             });
             
-            // Оновлюємо стан кнопок
-            document.getElementById('prev-button').disabled = index === 0;
-            document.getElementById('next-button').disabled = userAnswers[index] === null;
-            document.getElementById('next-button').textContent = index === currentTest.questions.length - 1 ? 'Завершити' : 'Далі';
+            // Оновлюємо кнопки навігації
+            document.getElementById('prev-btn').disabled = index === 0;
             
-            // Ховаємо пояснення, якщо користувач ще не відповів
-            if (userAnswers[currentQuestionIndex] === null) {
-                document.getElementById('explanation').style.display = 'none';
+            if (index === currentTest.questions.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+                document.getElementById('finish-btn').style.display = 'block';
+            } else {
+                document.getElementById('next-btn').style.display = 'block';
+                document.getElementById('finish-btn').style.display = 'none';
             }
+            
+            // Сховати підказку
+            document.getElementById('hint-container').style.display = 'none';
         }
         
-        // Вибрати варіант відповіді
-        function selectOption(optionIndex) {
-            // Якщо користувач вже відповів на це питання, нічого не робимо
-            if (userAnswers[currentQuestionIndex] !== null) return;
+        // Функція для вибору відповіді
+        function selectAnswer(answerId) {
+            userAnswers[currentQuestionIndex] = answerId;
             
-            userAnswers[currentQuestionIndex] = optionIndex;
-            
-            // Оновлюємо відображення варіантів
-            const options = document.querySelectorAll('.option');
-            const question = currentTest.questions[currentQuestionIndex];
-            
-            options.forEach((option, i) => {
-                if (i === optionIndex) {
+            // Оновлюємо вигляд варіантів відповідей
+            const answerOptions = document.querySelectorAll('.answer-option');
+            answerOptions.forEach(option => {
+                option.classList.remove('selected');
+                if (parseInt(option.dataset.answerId) === answerId) {
                     option.classList.add('selected');
                 }
-                
-                if (i === question.correctAnswer) {
-                    option.classList.add('correct');
-                } else if (i === optionIndex && i !== question.correctAnswer) {
-                    option.classList.add('incorrect');
-                }
             });
             
-            // Показуємо пояснення
-            document.getElementById('explanation').style.display = 'block';
-            document.getElementById('explanation').textContent = question.explanation;
-            
-            // Розблоковуємо кнопку "Далі"
-            document.getElementById('next-button').disabled = false;
-            
-            // Якщо це останнє питання, автоматично завершуємо тест через 2 секунди
-            if (currentQuestionIndex === currentTest.questions.length - 1) {
-                setTimeout(() => {
-                    finishTest();
-                }, 2000);
-            }
-        }
-        
-        // Перейти до попереднього питання
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                showQuestion(currentQuestionIndex);
-                updateProgressBar();
-            }
-        }
-        
-        // Перейти до наступного питання
-        function nextQuestion() {
-            if (currentQuestionIndex < currentTest.questions.length - 1) {
-                currentQuestionIndex++;
-                showQuestion(currentQuestionIndex);
-                updateProgressBar();
+            // Перевіряємо правильність відповіді
+            const question = currentTest.questions[currentQuestionIndex];
+            if (answerId !== question.correctAnswer) {
+                // Показуємо підказку для неправильної відповіді
+                document.getElementById('hint-text').textContent = question.hint;
+                document.getElementById('hint-container').style.display = 'block';
             } else {
-                finishTest();
+                document.getElementById('hint-container').style.display = 'none';
             }
         }
         
-        // Оновити прогрес-бар
-        function updateProgressBar() {
-            const progressPercentage = ((currentQuestionIndex + 1) / currentTest.questions.length) * 100;
-            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+        // Функція для показу наступного питання
+        function showNextQuestion() {
+            if (currentQuestionIndex < currentTest.questions.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+            }
         }
         
-        // Запустити таймер
+        // Функція для показу попереднього питання
+        function showPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+            }
+        }
+        
+        // Функція для запуску таймера
         function startTimer() {
             timeLeft = 1200; // 20 хвилин у секундах
             updateTimerDisplay();
@@ -877,5 +637,194 @@
             clearInterval(timerInterval);
         }
         
+        // Функція для приховування всіх екранів
+        function hideAllScreens() {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+        }
+        
+        // Завантаження статистики при запуску
+        function loadStats() {
+            const savedStats = localStorage.getItem('pdrTestStats');
+            if (savedStats) {
+                userStats = JSON.parse(savedStats);
+            }
+        }
+        
+        // Збереження статистики
+        function saveStats() {
+            localStorage.setItem('pdrTestStats', JSON.stringify(userStats));
+        }
+        
         // Завершити тест
-        function
+        function finishTest() {
+            stopTimer();
+            
+            // Підраховуємо результати
+            let correctCount = 0;
+            const categoryStats = {};
+            
+            userAnswers.forEach((answer, index) => {
+                const question = currentTest.questions[index];
+                if (answer === question.correctAnswer) {
+                    correctCount++;
+                }
+                
+                // Якщо це екзаменаційний тест, оновлюємо статистику по категоріях
+                if (examMode && question.category) {
+                    if (!categoryStats[question.category]) {
+                        categoryStats[question.category] = {
+                            title: question.categoryTitle,
+                            total: 0,
+                            correct: 0
+                        };
+                    }
+                    
+                    categoryStats[question.category].total++;
+                    if (answer === question.correctAnswer) {
+                        categoryStats[question.category].correct++;
+                    }
+                }
+            });
+            
+            // Оновлюємо статистику користувача
+            userStats.testsCompleted++;
+            userStats.totalQuestions += currentTest.questions.length;
+            userStats.correctAnswers += correctCount;
+            
+            // Оновлюємо статистику по категоріях
+            if (examMode) {
+                Object.keys(categoryStats).forEach(categoryId => {
+                    if (!userStats.categoryStats[categoryId]) {
+                        userStats.categoryStats[categoryId] = {
+                            title: categoryStats[categoryId].title,
+                            total: 0,
+                            correct: 0
+                        };
+                    }
+                    
+                    userStats.categoryStats[categoryId].total += categoryStats[categoryId].total;
+                    userStats.categoryStats[categoryId].correct += categoryStats[categoryId].correct;
+                });
+            }
+            
+            // Зберігаємо статистику
+            saveStats();
+            
+            // Показуємо результати
+            showTestResults(correctCount, currentTest.questions.length, categoryStats);
+        }
+        
+        // Показати результати тесту
+        function showTestResults(correctCount, totalCount, categoryStats) {
+            hideAllScreens();
+            document.getElementById('results-screen').classList.add('active');
+            
+            const percentage = Math.round((correctCount / totalCount) * 100);
+            
+            document.getElementById('score-text').textContent = `Ви відповіли правильно на ${correctCount} з ${totalCount} питань`;
+            document.getElementById('percentage-text').textContent = `${percentage}% правильних відповідей`;
+            
+            const resultMessage = document.getElementById('result-message');
+            if (examMode) {
+                if (percentage >= 90) {
+                    resultMessage.innerHTML = '<h3 style="color: #4CAF50;">Відмінно! Ви склали іспит.</h3>';
+                } else if (percentage >= 80) {
+                    resultMessage.innerHTML = '<h3 style="color: #8BC34A;">Добре! Ви склали іспит.</h3>';
+                } else if (percentage >= 70) {
+                    resultMessage.innerHTML = '<h3 style="color: #FFC107;">Задовільно. Ви склали іспит.</h3>';
+                } else {
+                    resultMessage.innerHTML = '<h3 style="color: #F44336;">На жаль, ви не склали іспит. Спробуйте ще раз.</h3>';
+                }
+            } else {
+                if (percentage >= 90) {
+                    resultMessage.innerHTML = '<h3 style="color: #4CAF50;">Відмінний результат!</h3>';
+                } else if (percentage >= 70) {
+                    resultMessage.innerHTML = '<h3 style="color: #8BC34A;">Хороший результат!</h3>';
+                } else if (percentage >= 50) {
+                    resultMessage.innerHTML = '<h3 style="color: #FFC107;">Непоганий результат, але варто повторити матеріал.</h3>';
+                } else {
+                    resultMessage.innerHTML = '<h3 style="color: #F44336;">Вам потрібно більше практики.</h3>';
+                }
+            }
+        }
+        
+        // Показати екран результатів
+        function showResults() {
+            hideAllScreens();
+            document.getElementById('stats-screen').classList.add('active');
+            
+            // Оновлюємо статистику
+            const overallSuccess = userStats.totalQuestions > 0 
+                ? Math.round((userStats.correctAnswers / userStats.totalQuestions) * 100) 
+                : 0;
+            
+            document.getElementById('overall-success').textContent = `${overallSuccess}%`;
+            document.getElementById('overall-bar').style.width = `${overallSuccess}%`;
+            document.getElementById('tests-completed').textContent = userStats.testsCompleted;
+            document.getElementById('correct-answers').textContent = `${userStats.correctAnswers} з ${userStats.totalQuestions}`;
+            
+            // Показуємо слабкі теми
+            const weakTopicsContainer = document.getElementById('weak-topics-container');
+            weakTopicsContainer.innerHTML = '';
+            
+            const categoryStats = userStats.categoryStats;
+            const weakTopics = [];
+            
+            Object.keys(categoryStats).forEach(categoryId => {
+                const category = categoryStats[categoryId];
+                const successRate = category.total > 0 ? (category.correct / category.total) * 100 : 0;
+                
+                if (successRate < 70 && category.total >= 5) {
+                    weakTopics.push({
+                        title: category.title,
+                        successRate: successRate
+                    });
+                }
+            });
+            
+            if (weakTopics.length > 0) {
+                weakTopics.sort((a, b) => a.successRate - b.successRate);
+                
+                weakTopics.forEach(topic => {
+                    const topicElement = document.createElement('div');
+                    topicElement.className = 'weak-topic';
+                    topicElement.textContent = `${topic.title} - ${Math.round(topic.successRate)}% успішності`;
+                    weakTopicsContainer.appendChild(topicElement);
+                });
+            } else {
+                const message = document.createElement('p');
+                message.textContent = 'Немає тем, які потребують покращення, або недостатньо даних.';
+                weakTopicsContainer.appendChild(message);
+            }
+        }
+        
+        // Показати модальне вікно для підтвердження виходу з тесту
+        function confirmExitTest() {
+            document.getElementById('exit-modal').style.display = 'flex';
+        }
+        
+        // Сховати модальне вікно
+        function hideExitModal() {
+            document.getElementById('exit-modal').style.display = 'none';
+        }
+        
+        // Вийти з тесту
+        function exitTest() {
+            hideExitModal();
+            showMainScreen();
+        }
+        
+        // Функція для відлагодження
+        function debugButtons() {
+            console.log("Додаємо обробники подій для кнопок");
+            
+            // Додаємо обробники подій для всіх кнопок
+            document.getElementById('start-exam-btn').onclick = function() {
+                console.log('Кнопка "Скласти іспит" натиснута');
+                startExam();
+            };
+            
+            document.getElementById('category-tests-btn').onclick = function() {
