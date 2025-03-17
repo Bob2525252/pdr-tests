@@ -282,9 +282,9 @@
     <!-- Головний екран -->
     <div id="main-screen" class="screen active">
         <h1>Офіційні тести ПДР<br>Від Академії ВодіїВ</h1>
-        <button id="start-exam-btn" class="btn" onclick="startExam()">Скласти іспит</button>
-        <button id="category-tests-btn" class="btn" onclick="showCategories()">Тести по темах</button>
-        <button id="results-btn" class="btn" onclick="showResults()">Мої результати</button>
+        <button id="start-exam-btn" class="btn">Скласти іспит</button>
+        <button id="category-tests-btn" class="btn">Тести по темах</button>
+        <button id="results-btn" class="btn">Мої результати</button>
     </div>
     
     <!-- Екран категорій -->
@@ -293,7 +293,7 @@
         <div id="categories-container">
             <!-- Категорії будуть додані через JavaScript -->
         </div>
-        <button class="btn btn-secondary" onclick="showMainScreen()">Назад</button>
+        <button class="btn btn-secondary">Назад</button>
     </div>
     
     <!-- Екран тесту -->
@@ -321,12 +321,12 @@
         </div>
         
         <div class="navigation-buttons">
-            <button id="prev-btn" class="btn btn-secondary" onclick="showPreviousQuestion()">Попереднє</button>
-            <button id="next-btn" class="btn" onclick="showNextQuestion()">Наступне</button>
+            <button id="prev-btn" class="btn btn-secondary">Попереднє</button>
+            <button id="next-btn" class="btn">Наступне</button>
         </div>
         
-        <button id="finish-btn" class="btn btn-success" onclick="finishTest()" style="display: none;">Завершити тест</button>
-        <button id="exit-btn" class="btn btn-danger" onclick="confirmExitTest()">Вийти з тесту</button>
+        <button id="finish-btn" class="btn btn-success" style="display: none;">Завершити тест</button>
+        <button id="exit-btn" class="btn btn-danger">Вийти з тесту</button>
     </div>
     
     <!-- Екран результатів тесту -->
@@ -339,7 +339,7 @@
             <div id="result-message"></div>
         </div>
         
-        <button class="btn" onclick="showMainScreen()">На головну</button>
+        <button class="btn">На головну</button>
     </div>
     
     <!-- Екран статистики -->
@@ -370,7 +370,7 @@
             <!-- Слабкі теми будуть додані через JavaScript -->
         </div>
         
-        <button class="btn btn-secondary" onclick="showMainScreen()">Назад</button>
+        <button class="btn btn-secondary">Назад</button>
     </div>
     
     <!-- Модальне вікно для підтвердження виходу з тесту -->
@@ -379,8 +379,8 @@
             <h2 class="modal-title">Вийти з тесту?</h2>
             <p>Ваш прогрес буде втрачено.</p>
             <div class="modal-buttons">
-                <button class="btn btn-secondary" onclick="hideExitModal()">Скасувати</button>
-                <button class="btn btn-danger" onclick="exitTest()">Вийти</button>
+                <button class="btn btn-secondary" id="cancel-exit-btn">Скасувати</button>
+                <button class="btn btn-danger" id="confirm-exit-btn">Вийти</button>
             </div>
         </div>
     </div>
@@ -822,90 +822,15 @@
             console.log("Додаємо обробники подій для кнопок");
             
             // Додаємо обробники подій для всіх кнопок
-            document.getElementById('start-exam-btn').onclick = function() {
+            document.getElementById('start-exam-btn').addEventListener('click', function() {
                 console.log('Кнопка "Скласти іспит" натиснута');
                 startExam();
-            };
+            });
             
-            document.getElementById('category-tests-btn').onclick = function() {
+            document.getElementById('category-tests-btn').addEventListener('click', function() {
                 console.log('Кнопка "Тести по темах" натиснута');
-showCategories();
-};
-
-document.getElementById('results-btn').onclick = function() {
-    console.log('Кнопка "Мої результати" натиснута');
-    showResults();
-};
-
-// Інші кнопки
-const backButtons = document.querySelectorAll('.btn-secondary');
-backButtons.forEach(button => {
-    if (button.textContent === 'Назад') {
-        button.addEventListener('click', function() {
-            console.log('Кнопка "Назад" натиснута');
-            showMainScreen();
-        });
-    }
-});
-
-document.getElementById('prev-btn').addEventListener('click', function() {
-    console.log('Кнопка "Попереднє" натиснута');
-    showPreviousQuestion();
-});
-
-document.getElementById('next-btn').addEventListener('click', function() {
-    console.log('Кнопка "Наступне" натиснута');
-    showNextQuestion();
-});
-
-document.getElementById('finish-btn').addEventListener('click', function() {
-    console.log('Кнопка "Завершити тест" натиснута');
-    finishTest();
-});
-
-document.getElementById('exit-btn').addEventListener('click', function() {
-    console.log('Кнопка "Вийти з тесту" натиснута');
-    confirmExitTest();
-});
-
-// Ініціалізація при завантаженні сторінки
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Сторінка завантажена');
-    
-    // Завантажуємо статистику
-    loadStats();
-    
-    // Додаємо обробники подій для кнопок
-    debugButtons();
-});
-
-// Виводимо повідомлення для перевірки, що скрипт завантажився
-console.log('Скрипт завантажено');
-            document.getElementById('next-btn').addEventListener('click', function() {
-    console.log('Кнопка "Наступне" натиснута');
-    showNextQuestion();
-});
-
-document.getElementById('finish-btn').addEventListener('click', function() {
-    console.log('Кнопка "Завершити тест" натиснута');
-    finishTest();
-});
-
-document.getElementById('exit-btn').addEventListener('click', function() {
-    console.log('Кнопка "Вийти з тесту" натиснута');
-    confirmExitTest();
-});
-
-// Ініціалізація при завантаженні сторінки
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Сторінка завантажена');
-    
-    // Завантажуємо статистику
-    loadStats();
-    
-    // Додаємо обробники подій для кнопок
-    debugButtons();
-});
-
-// Виводимо повідомлення для перевірки, що скрипт завантажився
-console.log('Скрипт завантажено');
+                showCategories();
+            });
+            
+            document.getElementById('results-btn').addEventListener('click', function() {
+                console.log('Кнопка "М
