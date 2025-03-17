@@ -1,4 +1,4 @@
-updated_code = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
@@ -40,11 +40,6 @@ updated_code = '''<!DOCTYPE html>
             color: #2196F3;
         }
         
-        h2 {
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-        
         .btn {
             display: block;
             width: 100%;
@@ -63,255 +58,55 @@ updated_code = '''<!DOCTYPE html>
         .btn:hover {
             background-color: #1976D2;
         }
-        
-        .btn-secondary {
-            background-color: #E0E0E0;
-            color: #333;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #BDBDBD;
-        }
-        
-        .btn-danger {
-            background-color: #F44336;
-        }
-        
-        .btn-danger:hover {
-            background-color: #D32F2F;
-        }
-        
-        .btn-success {
-            background-color: #4CAF50;
-        }
-        
-        .btn-success:hover {
-            background-color: #388E3C;
-        }
-        
-        .category-item {
-            padding: 16px;
-            margin-bottom: 12px;
-            background-color: #E3F2FD;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .category-item:hover {
-            background-color: #BBDEFB;
-        }
-        
-        .question-container {
-            margin-bottom: 24px;
-        }
-        
-        .question-image {
-            width: 100%;
-            max-height: 200px;
-            object-fit: contain;
-            margin-bottom: 12px;
-            background-color: #E0E0E0;
-            border-radius: 8px;
-        }
-        
-        .answer-option {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 8px;
-            background-color: #E3F2FD;
-            border: 2px solid #E3F2FD;
-            border-radius: 8px;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .answer-option:hover {
-            background-color: #BBDEFB;
-            border-color: #BBDEFB;
-        }
-        
-        .answer-option.selected {
-            background-color: #2196F3;
-            border-color: #2196F3;
-            color: white;
-        }
-        
-        .answer-option.correct {
-            background-color: #4CAF50;
-            border-color: #4CAF50;
-            color: white;
-        }
-        
-        .answer-option.incorrect {
-            background-color: #F44336;
-            border-color: #F44336;
-            color: white;
-        }
-        
-        .progress-container {
-            height: 8px;
-            background-color: #E0E0E0;
-            border-radius: 4px;
-            margin-bottom: 16px;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background-color: #2196F3;
-            width: 0%;
-            transition: width 0.3s;
-        }
-        
-        .timer-container {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-        
-        .timer {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2196F3;
-        }
-        
-        .timer.timer-warning {
-            color: #F44336;
-        }
-        
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 16px;
-        }
-        
-        .navigation-buttons .btn {
-            width: 48%;
-        }
-        
-        .result-container {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        
-        .result-score {
-            font-size: 48px;
-            font-weight: bold;
-            color: #2196F3;
-            margin-bottom: 8px;
-        }
-        
-        .stats-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px;
-            margin-bottom: 8px;
-            background-color: #E3F2FD;
-            border-radius: 8px;
-        }
-        
-        .stats-bar-container {
-            height: 24px;
-            background-color: #E0E0E0;
-            border-radius: 4px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-        
-        .stats-bar {
-            height: 100%;
-            background-color: #2196F3;
-            width: 0%;
-        }
-        
-        .weak-topic {
-            padding: 12px;
-            margin-bottom: 8px;
-            background-color: #FFEBEE;
-            border-radius: 8px;
-            color: #D32F2F;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 24px;
-            border-radius: 12px;
-            width: 80%;
-            max-width: 400px;
-        }
-        
-        .modal-title {
-            font-size: 20px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .modal-buttons .btn {
-            width: 48%;
-        }
-        
-        .hint-container {
-            margin-top: 16px;
-            padding: 12px;
-            background-color: #FFF9C4;
-            border-radius: 8px;
-            display: none;
-        }
-
-        /* Адаптивність для мобільних пристроїв */
-        @media (max-width: 600px) {
-            body {
-                padding: 8px;
-            }
-
-            .btn {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            .question-image {
-                max-height: 150px;
-            }
-
-            .timer {
-                font-size: 20px;
-            }
-        }
     </style>
 </head>
 <body>
     <!-- Головний екран -->
     <div id="main-screen" class="screen active">
-        <h1>Офіційні тести ПДР<br>Від Академії ВодіїВ</h1>
+        <h1>Офіційні тести ПДР</h1>
         <button id="start-exam-btn" class="btn">Скласти іспит</button>
         <button id="category-tests-btn" class="btn">Тести по темах</button>
         <button id="results-btn" class="btn">Мої результати</button>
     </div>
 
-    <!-- Інші екрани залишаються без змін -->
+    <!-- Екран тесту -->
+    <div id="test-screen" class="screen">
+        <h1>Екран тесту</h1>
+        <button id="back-btn" class="btn">Назад</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Функція для приховування всіх екранів
+            function hideAllScreens() {
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+            }
+
+            // Функція для показу конкретного екрану
+            function showScreen(screenId) {
+                hideAllScreens();
+                document.getElementById(screenId).classList.add('active');
+            }
+
+            // Прив'язка подій до кнопок
+            document.getElementById('start-exam-btn').addEventListener('click', function () {
+                showScreen('test-screen');
+            });
+
+            document.getElementById('category-tests-btn').addEventListener('click', function () {
+                alert('Тести по темах ще не реалізовані');
+            });
+
+            document.getElementById('results-btn').addEventListener('click', function () {
+                alert('Мої результати ще не реалізовані');
+            });
+
+            document.getElementById('back-btn').addEventListener('click', function () {
+                showScreen('main-screen');
+            });
+        });
+    </script>
 </body>
 </html>
-'''
-
-# Зберігаємо оновлений код у файл
-with open('updated_pdr_tests.html', 'w', encoding='utf-8') as file:
-    file.write(updated_code)
